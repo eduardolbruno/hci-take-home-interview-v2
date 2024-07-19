@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PatientAdministrationSystem.Application.Entities;
 using PatientAdministrationSystem.Application.Interfaces;
+using System.Xml.Linq;
 
 namespace Hci.Ah.Home.Api.Gateway.Controllers.Patients;
 
@@ -26,13 +27,14 @@ public class PatientsController : ControllerBase
         return await _patientsService.GetAll();
     }
 
-    [HttpGet("search/{name}")]
-    public async Task<IActionResult> GetPatient(string name)
+    // GET: api/patients/search/{name}
+    [HttpGet("search/{search}")]
+    public async Task<IActionResult> GetAllPatientVisits(string search)
     {
-        var patients = await _patientsService.GetByName(name);
-        if (patients == null || !patients.Any())
+        var patients = await _patientsService.GetAllPatientVisitsAsync(search);
+        if (patients == null)
         {
-            return NotFound(new { Message = $"No patients found with name containing: {name}" });
+            return NotFound(new { Message = $"No patients found with name containing: {search}" });
         }
         return Ok(patients);
     }
