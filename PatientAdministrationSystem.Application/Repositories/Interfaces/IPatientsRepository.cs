@@ -8,6 +8,8 @@ public interface IPatientsRepository
     // Add interfaces here for your repository methods
 
     Task<IEnumerable<PatientEntity>> GetAll();
-    Task<IEnumerable<PatientEntity>> GetByName(string name);
+    Task<IEnumerable<PatientEntity>> GetAllPatientsAsync();
+    Task<IEnumerable<PatientHospitalRelation>> GetAllPatientVisitsAsync(string search);
+
 
 }

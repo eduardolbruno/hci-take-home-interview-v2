@@ -1,6 +1,9 @@
 using System;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Xml.Linq;
 using Microsoft.EntityFrameworkCore;
+using PatientAdministrationSystem.Application.Dtos;
 using PatientAdministrationSystem.Application.Entities;
 using PatientAdministrationSystem.Application.Repositories.Interfaces;
 using static System.Net.Mime.MediaTypeNames;
@@ -23,25 +26,39 @@ public class PatientsRepository : IPatientsRepository
         return await _context.Patients.ToListAsync();
     }
 
-    public async Task<IEnumerable<PatientEntity>> GetByName(string name)
+    public async Task<IEnumerable<PatientEntity>> GetAllPatientsAsync()
     {
-        var lowercaseName = name.ToLower();
-        var patients = await _context.Patients.Where(x => x.FirstName.ToLower().Contains(lowercaseName) || x.LastName.ToLower().Contains(lowercaseName)).ToListAsync();
-        //var res = await _context.FindAsync<IEnumerable<PatientEntity>>(name);
+        return await _context.Patients.Include(p => p.PatientHospitals).ToListAsync();
+    }
 
-        if (patients == null || !patients.Any())
+    public async Task<IEnumerable<PatientHospitalRelation>> GetAllPatientVisitsAsync(string search)
+    {
+        var lowerCaseSearch = search.ToLower();
+
+        var query = _context.PatientHospitalRelations
+            .Include(ph => ph.Patient)
+            .Include(ph => ph.Hospital)
+            .Include(ph => ph.Visit)
+              .Where(ph => ph.Patient.FirstName.ToLower().Contains(lowerCaseSearch) ||
+                         ph.Patient.LastName.ToLower().Contains(lowerCaseSearch));
+
+         var res = await query.ToListAsync();
+
+        if (res == null || !res.Any())
         {
-            Console.WriteLine($"No patient found with name: {name}");
-            return Enumerable.Empty<PatientEntity>();
+            Console.WriteLine($"No patient found with name: {search}");
+            return Enumerable.Empty<PatientHospitalRelation>();
         }
         else
         {
-            foreach (var patient in patients)
+            foreach (var patient in res)
             {
-                Console.WriteLine($"Patient: {patient.FirstName} {patient.LastName}");
+                Console.WriteLine($"Patient: {patient.Patient.FirstName} {patient.Patient.LastName}");
             }
-            return patients;
+            return res;
         }
 
+
     }
+
 }
