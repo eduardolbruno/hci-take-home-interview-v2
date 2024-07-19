@@ -7,6 +7,7 @@ using PatientAdministrationSystem.Application.Repositories.Interfaces;
 using PatientAdministrationSystem.Application.Services;
 using PatientAdministrationSystem.Infrastructure;
 using PatientAdministrationSystem.Infrastructure.Repositories;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +34,7 @@ builder.Services.AddDbContext<HciDataContext>(options =>
 builder.Services.AddResponseCompression(options => { options.EnableForHttps = true; });
 
 builder.Services.AddControllers();
+
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddHttpContextAccessor();
@@ -74,6 +76,12 @@ using (var serviceScope = app.Services.CreateScope())
         Name = "Default hospital"
     });
 
+    dbContext.Hospitals.Add(new HospitalEntity
+    {
+        Id = new Guid("110c022e-1aff-4ad8-2231-08db0378ac98"),
+        Name = "Default hospital 2"
+    });
+
     dbContext.Patients.Add(new PatientEntity
     {
         Id = new Guid("c00b9ff3-b1b6-42fe-8b5a-4c28408fb64a"),
@@ -96,7 +104,16 @@ using (var serviceScope = app.Services.CreateScope())
             Id = new Guid("1ec2d3f7-8aa8-4bf5-91b8-045378919049"),
             FirstName = "Vinny",
             LastName = "Lawlor",
-            Email = "vinny.lawlor@hci.care"
+            Email = "vinny.lawlor@hci.care",
+            PatientHospitals = new List<PatientHospitalRelation>
+        {
+            new()
+            {
+                PatientId = new Guid("1ec2d3f7-8aa8-4bf5-91b8-045378919049"),
+                HospitalId = new Guid("110c022e-1aff-4ad8-2231-08db0378ac98"),
+                VisitId = new Guid("a7a5182a-995c-4bce-bce0-6038be112b7b")
+            }
+        }
         });
 
     dbContext.Visits.Add(
