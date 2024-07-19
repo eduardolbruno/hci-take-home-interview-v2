@@ -11,7 +11,7 @@ const NavMenu: React.FC = () => {
     return (
         <header>
             <Navbar className="navbar-expand-sm navbar-light bg-light border-bottom box-shadow mb-3" container>
-                <NavbarBrand tag={Link} to="/">Patient Admission Service</NavbarBrand>
+                <NavbarBrand tag={Link} to="/">Patient Service</NavbarBrand>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="navbar-nav flex-grow" navbar>

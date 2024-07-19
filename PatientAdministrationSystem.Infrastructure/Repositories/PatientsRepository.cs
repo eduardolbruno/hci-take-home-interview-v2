@@ -42,7 +42,7 @@ public class PatientsRepository : IPatientsRepository
               .Where(ph => ph.Patient.FirstName.ToLower().Contains(lowerCaseSearch) ||
                          ph.Patient.LastName.ToLower().Contains(lowerCaseSearch));
 
-         var res = await query.ToListAsync();
+        var res = await query.ToListAsync();
 
         if (res == null || !res.Any())
         {

@@ -41,8 +41,8 @@ const PatientList: React.FC = () => {
         if (searchValue !== '') {
 
             try {
-                    const response = await axiosInstance.get<Patient[]>(`/patients/search/${searchValue}`)
-                    setPatients(response.data)
+                const response = await axiosInstance.get<Patient[]>(`/patients/search/${searchValue}`)
+                setPatients(response.data)
 
             } catch (error: any) {
                 setError(error.message || 'An error occurred')
@@ -63,8 +63,8 @@ const PatientList: React.FC = () => {
     useEffect(() => {
         getAllPatients()
 
-    },[])
-    
+    }, [])
+
 
     return (
         <Container>
@@ -85,7 +85,7 @@ const PatientList: React.FC = () => {
                                 value={searchValue}
                                 onChange={(e) => setSearchValue(e.target.value)}
                             />
-                        </FormGroup> 
+                        </FormGroup>
                         <Button type="submit" color="primary" style={{ height: '100%' }}>
                             Search
                         </Button>
@@ -102,12 +102,12 @@ const PatientList: React.FC = () => {
                         )}
                     </Col>
 
-                    { patients.length > 0 && (
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
+                    {patients.length > 0 && (
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
                                     <th>Email</th>
                                     {patients.map((patient: Patient) => (
                                         patient.patientHospitals && (
@@ -116,46 +116,43 @@ const PatientList: React.FC = () => {
                                                 <th>Visit Date</th>
                                             </>
                                         )
-                                    ) )}
-                                      
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        patients.map((patient: Patient) => (
-                                            <tr key={patient.id} >
-                                                <td>{patient.firstName}</td>
-                                                <td>{patient.lastName}</td>
-                                                <td>{patient.email}</td>
-                                                {patient.patientHospitals && (
-                                                    <>
+                                    ))}
 
-
-<td>
-                                                    {patient.patientHospitals.map((relation) => (
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    patients.map((patient: Patient) => (
+                                        <tr key={patient.id} >
+                                            <td>{patient.firstName}</td>
+                                            <td>{patient.lastName}</td>
+                                            <td>{patient.email}</td>
+                                            {patient.patientHospitals && (
+                                                <>
+                                                    <td>
+                                                        {patient.patientHospitals.map((relation) => (
                                                             <div key={relation.hospitalId} >
                                                                 {relation.hospital.name}
                                                             </div>
                                                         ))
-                                                    }
-                                                </td>
-                                                <td>
-                                                    {patient.patientHospitals.map((relation) => (
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        {patient.patientHospitals.map((relation) => (
                                                             <div key={relation.visitId} >
                                                                 {new Date(relation.visit.date).toLocaleDateString()}
                                                             </div>
                                                         ))
-                                                    }
-                                                </td>
-                                                    </>
-                                                ) }
-                                                
-                                            </tr>
-                                        ))
-                                    }
-                                </tbody>
-                            </table>
-                        )
+                                                        }
+                                                    </td>
+                                                </>
+                                            )}
+                                        </tr>
+                                    ))
+                                }
+                            </tbody>
+                        </table>
+                    )
                     }
                 </Row>
             </Row>
