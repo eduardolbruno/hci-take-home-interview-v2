@@ -1,5 +1,4 @@
-## Technical assessment - take home 
-
+## Technical Assessment - HCI
 **How to Start?**
 
 * Clone the repo
