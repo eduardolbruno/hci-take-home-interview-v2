@@ -5,7 +5,7 @@
 * Install all the dependencies for the Client (_yarn_ or _npm install_)
 * Start the ASP.NET Core server from Visual Studio or using _dotnet run_.
 * Start the React development server: using _npm start_ or _yarn start_ from the ClientApp (Client/ClientApp) directory
-* Open _https://localhost:44424_ and follow the on screen instructions to look up for patients/visits
+* Open _https://localhost:44424_ and follow the on screen instructions to look for patients/visits
 
 **Environments**
 * API: _http://localhost:5272_
