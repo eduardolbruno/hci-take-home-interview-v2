@@ -1,5 +1,6 @@
 ﻿using PatientAdministrationSystem.Application.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace PatientAdministrationSystem.Infrastructure;
 
@@ -19,6 +20,7 @@ public class HciDataContext : DbContext, IHciDataContext
     public DbSet<HospitalEntity> Hospitals { get; set; } = null!;
 
     public DbSet<VisitEntity> Visits { get; set; } = null!;
+    public DbSet<PatientHospitalRelation> PatientHospitalRelations { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
