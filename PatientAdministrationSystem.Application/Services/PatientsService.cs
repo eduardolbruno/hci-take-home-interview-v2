@@ -2,6 +2,7 @@ using PatientAdministrationSystem.Application.Entities;
 using PatientAdministrationSystem.Application.Interfaces;
 using PatientAdministrationSystem.Application.Repositories.Interfaces;
 using System.Linq.Expressions;
+using System.Xml.Linq;
 
 namespace PatientAdministrationSystem.Application.Services;
 
@@ -15,4 +16,15 @@ public class PatientsService : IPatientsService
     }
 
     // Define your patient search logic here based on the interface method definition
+
+    public Task<IEnumerable<PatientEntity>> GetAll() {
+        return _repository.GetAll();
+    }
+
+    public Task<IEnumerable<PatientEntity>> GetByName(string name)
+    {
+        return _repository.GetByName(name);
+    }
+
+
 }
